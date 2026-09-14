@@ -363,17 +363,32 @@
       <h1 class="headline">21 Days.<br>Consistent <span class="accent">Action</span> Challenge.</h1>
       <div class="subhead">One goal. 21 days. Consistent action.</div>
       <p class="lede">A guided 21-day accountability experience for the one goal, habit or task you keep meaning to start — with daily structure, NLP-based tools, and a community holding you accountable.</p>
-      <a class="btn-primary" href="#join">
-        Join the challenge — ₹500
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
+      
       <div class="hero-byline">
         <span class="photo-tag">Dr. Niyogitha Ujwal</span>
         <div class="photo-role">NLP Coach&nbsp;|&nbsp;Clarity &amp; Direction Coach</div>
       </div>
+	  <!-- PROGRAM DATES -->
+<div >
+  <div class="section-head">
+    <div class="section-title"><span class="line"></span>Program Dates<span class="line"></span></div>
+  </div>
+  <div class="dates-grid">
+    <div class="date-card">
+      <div class="date-label">Program Starts</div>
+      <div class="date-value" id="program-start-display"></div>
+    </div>
+    <div class="date-card">
+      <div class="date-label">Program Ends</div>
+      <div class="date-value" id="program-end-display"></div>
     </div>
   </div>
 </div>
+    </div>
+  </div>
+</div>
+
+
 
 <!-- HOOK + DEFINITION -->
 <div class="wrap">
@@ -389,23 +404,6 @@
       <p>A 21-day accountability experience where you choose <strong>ONE</strong> goal, habit or task you genuinely want to work on. Not a long list of resolutions — just one thing.</p>
       <div class="cycle"><span>Plan</span><span>→ Take Action</span><span>→ Stay Accountable</span><span>→ Review</span><span>→ Repeat</span></div>
       <p class="punch">The focus isn't perfection. It's consistent action.</p>
-    </div>
-  </div>
-</div>
-
-<!-- PROGRAM DATES -->
-<div class="wrap section-block">
-  <div class="section-head">
-    <div class="section-title"><span class="line"></span>Program Dates<span class="line"></span></div>
-  </div>
-  <div class="dates-grid">
-    <div class="date-card">
-      <div class="date-label">Program Starts</div>
-      <div class="date-value" id="program-start-display"></div>
-    </div>
-    <div class="date-card">
-      <div class="date-label">Program Ends</div>
-      <div class="date-value" id="program-end-display"></div>
     </div>
   </div>
 </div>
@@ -854,7 +852,10 @@
   // -------------------------------------------------------------
 
   function formatProgramDate(d) {
-    return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+    // Explicit timeZone so the date shown is always in IST, regardless of
+    // the visitor's own device timezone (otherwise it can roll back a day
+    // for anyone browsing from west of India).
+    return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' });
   }
 
   document.getElementById('upi-id-display').textContent = UPI_ID;
@@ -1166,7 +1167,10 @@
       // no-cors gives an opaque response, so this only confirms the request went out,
       // not that Apps Script actually wrote the row — check the sheet's own status
       // column for the real calendar-invite outcome, since the page can't read it back.
-      statusEl.innerHTML = '✓ Registered — ' + summaryLine() + '<br>Details sent. Opening your UPI app…';
+      statusEl.innerHTML = '✓ Registered — ' + summaryLine() + '<br>Details sent. Opening your UPI app…'
+        + '<br><a href="https://wa.me/917975526615" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:6px; margin-top:8px; color:var(--mint-deep); font-weight:600; text-decoration:none;">'
+        + '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2C6.478 2 2 6.478 2 12c0 1.986.573 3.868 1.65 5.5L2 22l4.652-1.62A9.955 9.955 0 0 0 12.004 22C17.53 22 22 17.522 22 12S17.53 2 12.004 2zm0 18.2a8.17 8.17 0 0 1-4.417-1.293l-.317-.19-3.06 1.066 1.03-2.99-.207-.318A8.16 8.16 0 0 1 3.8 12c0-4.526 3.68-8.2 8.204-8.2 4.524 0 8.2 3.674 8.2 8.2 0 4.526-3.676 8.2-8.2 8.2z"/></svg>'
+        + 'Share payment reference on WhatsApp to +91 79755 26615</a>';
       statusEl.style.color = 'var(--mint-deep)';
       clearFormFields();
     }).catch(function (err) {
