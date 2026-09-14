@@ -1075,13 +1075,40 @@
       return bits.filter(Boolean).join(' · ');
     };
 
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
     var redirectToUpi = function () {
-      var upiUrl = 'upi://pay?pa=' + encodeURIComponent(UPI_ID)
-        + '&pn=' + encodeURIComponent(UPI_PAYEE_NAME)
-        + '&am=' + encodeURIComponent(UPI_AMOUNT)
-        + '&cu=INR'
-        + '&tn=' + encodeURIComponent('21 Days Challenge - ' + data.name);
-      window.location.href = upiUrl;
+      if (isIOS) {
+        // iOS has no OS-level "choose an app" dialog for links like Android does,
+        // and a single scheme only opens one specific app (whichever claimed it) —
+        // so we show a small picker of the major apps' own iOS schemes instead of
+        // guessing which one to auto-launch.
+        var txnNote = encodeURIComponent('21 Days Challenge - ' + data.name);
+        var pa = encodeURIComponent(UPI_ID);
+        var pn = encodeURIComponent(UPI_PAYEE_NAME);
+        var apps = [
+          { name: 'Google Pay', url: 'gpay://upi/pay?pa=' + pa + '&pn=' + pn + '&am=' + UPI_AMOUNT + '&cu=INR&tn=' + txnNote },
+          { name: 'PhonePe', url: 'phonepe://upi/pay?pa=' + pa + '&pn=' + pn + '&am=' + UPI_AMOUNT + '&cu=INR&tn=' + txnNote },
+          { name: 'Paytm', url: 'paytmmp://pay?pa=' + pa + '&pn=' + pn + '&am=' + UPI_AMOUNT + '&cu=INR&tn=' + txnNote }
+        ];
+        var picker = document.createElement('div');
+        picker.style.cssText = 'margin-top:14px; display:flex; flex-wrap:wrap; gap:8px; justify-content:center;';
+        apps.forEach(function (app) {
+          var btn = document.createElement('a');
+          btn.href = app.url;
+          btn.textContent = 'Pay with ' + app.name;
+          btn.style.cssText = 'display:inline-block; padding:10px 16px; border-radius:30px; background:var(--navy); color:var(--cream); text-decoration:none; font-size:0.85rem; font-weight:600;';
+          picker.appendChild(btn);
+        });
+        statusEl.insertAdjacentElement('afterend', picker);
+      } else {
+        var upiUrl = 'upi://pay?pa=' + encodeURIComponent(UPI_ID)
+          + '&pn=' + encodeURIComponent(UPI_PAYEE_NAME)
+          + '&am=' + encodeURIComponent(UPI_AMOUNT)
+          + '&cu=INR'
+          + '&tn=' + encodeURIComponent('21 Days Challenge - ' + data.name);
+        window.location.href = upiUrl;
+      }
     };
 
     if (GOOGLE_SCRIPT_URL.indexOf('PASTE_YOUR') === 0) {
