@@ -134,6 +134,7 @@
   .date-card:nth-child(2){ background:var(--blush); }
   .date-label{ font-family:'Caveat',cursive; font-weight:700; font-size:1.2rem; color:var(--navy-ink); margin-bottom:6px; }
   .date-value{ font-size:clamp(1.05rem,3vw,1.3rem); font-weight:800; color:var(--navy); }
+  .date-sub{ font-size:0.8rem; font-weight:600; color:var(--navy-ink); opacity:.8; margin-top:4px; }
 
   /* ---------- What can you work on ---------- */
   .examples{
@@ -363,13 +364,20 @@
       <h1 class="headline">21 Days.<br>Consistent <span class="accent">Action</span> Challenge.</h1>
       <div class="subhead">One goal. 21 days. Consistent action.</div>
       <p class="lede">A guided 21-day accountability experience for the one goal, habit or task you keep meaning to start — with daily structure, NLP-based tools, and a community holding you accountable.</p>
-      
+      <a class="btn-primary" href="#join">
+        Join the challenge — ₹500
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
       <div class="hero-byline">
         <span class="photo-tag">Dr. Niyogitha Ujwal</span>
         <div class="photo-role">NLP Coach&nbsp;|&nbsp;Clarity &amp; Direction Coach</div>
       </div>
-	  <!-- PROGRAM DATES -->
-<div >
+    </div>
+  </div>
+</div>
+
+<!-- PROGRAM DATES -->
+<div class="wrap section-block">
   <div class="section-head">
     <div class="section-title"><span class="line"></span>Program Dates<span class="line"></span></div>
   </div>
@@ -377,6 +385,7 @@
     <div class="date-card">
       <div class="date-label">Program Starts</div>
       <div class="date-value" id="program-start-display"></div>
+      <div class="date-sub" id="program-start-webinar"></div>
     </div>
     <div class="date-card">
       <div class="date-label">Program Ends</div>
@@ -384,11 +393,6 @@
     </div>
   </div>
 </div>
-    </div>
-  </div>
-</div>
-
-
 
 <!-- HOOK + DEFINITION -->
 <div class="wrap">
@@ -452,35 +456,6 @@
   </div>
 </div>
 
-<!-- 21-DAY JOURNEY -->
-<div class="wrap section-block">
-  <div class="section-head">
-    <div class="section-title"><span class="line"></span>What happens during the 21 days?<span class="line"></span></div>
-  </div>
-  <div class="journey">
-    <div class="journey-stage">
-      <div class="journey-day">Day 1</div>
-      <div><h4>Declare</h4><p>Choose your goal and make your commitment.</p></div>
-    </div>
-    <div class="journey-stage">
-      <div class="journey-day">Days 2–7</div>
-      <div><h4>Start</h4><p>Create your daily action plan and begin building momentum.</p></div>
-    </div>
-    <div class="journey-stage">
-      <div class="journey-day">Days 8–14</div>
-      <div><h4>Observe &amp; Shift</h4><p>Notice what's getting in your way and use practical tools to work through it.</p></div>
-    </div>
-    <div class="journey-stage">
-      <div class="journey-day">Days 15–20</div>
-      <div><h4>Stay Consistent</h4><p>Strengthen your commitment and learn how to get back on track when you slip.</p></div>
-    </div>
-    <div class="journey-stage">
-      <div class="journey-day">Day 21</div>
-      <div><h4>Review &amp; Continue</h4><p>Look at what you've achieved, what you've learned, and how you want to continue.</p></div>
-    </div>
-  </div>
-</div>
-
 <!-- THIS CHALLENGE IS FOR YOU IF -->
 <div class="wrap section-block">
   <div class="section-head">
@@ -495,28 +470,6 @@
     <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12l5 5L20 6"/></svg> You'd benefit from accountability and community support</li>
     <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12l5 5L20 6"/></svg> You're ready to take action</li>
   </ul>
-</div>
-
-<!-- WHAT YOU COULD WALK AWAY WITH -->
-<div class="wrap section-block">
-  <div class="section-head">
-    <div class="section-title"><span class="line"></span>What you could walk away with<span class="line"></span></div>
-  </div>
-  <ul class="walkaway">
-    <li>One goal you've actively worked on</li>
-    <li>21 days of experience with accountability</li>
-    <li>A better understanding of your own action patterns</li>
-    <li>Practical tools to handle obstacles</li>
-    <li>A clearer idea of what helps you stay consistent</li>
-  </ul>
-  <p class="walkaway-punch">And most importantly — evidence that you can take action when you commit to it.</p>
-</div>
-
-<!-- REASSURANCE -->
-<div class="wrap reassure">
-  <div class="side left">You don't need to<br><u>change everything.</u><br>Just start with ONE thing. 🩷</div>
-  <div style="width:1px; height:60px; background:rgba(18,57,92,0.15); justify-self:center;"></div>
-  <div class="side right">A clearer you.<br>A calmer you.<br>A happier you. 🩷</div>
 </div>
 
 <!-- NOTE FROM COACH -->
@@ -844,25 +797,34 @@
   // Single source of truth for the program's start date — everything else
   // (the dates section, the offer card's "Start Date" line) is derived from
   // this one variable, so it only ever needs updating in one place.
-  var PROGRAM_START = new Date("2026-09-22T00:00:00+05:30");
+  var PROGRAM_START = new Date("2026-09-24T00:00:00+05:30");
   // The 21-day challenge runs Day 1 through Day 21, so the end date is 20 days later.
   var PROGRAM_END = new Date(PROGRAM_START.getTime() + 20 * 24 * 60 * 60 * 1000);
 
-  var OPENING_WEBINAR_DATE = "To be announced"; // e.g. "31 January 2026, 7:00 PM" — kept separate since the webinar's exact time may differ from Day 1's date
+  // Opening Webinar is assumed to be on the same day as PROGRAM_START — only
+  // the time needs setting here. If it's ever on a different day, replace
+  // OPENING_WEBINAR_DAY with its own new Date(...) instead of reusing PROGRAM_START.
+  var OPENING_WEBINAR_DAY = PROGRAM_START;
+  var OPENING_WEBINAR_TIME = "7:00 PM – 9:00 PM";
   // -------------------------------------------------------------
 
-  function formatProgramDate(d) {
+  function formatProgramDate(d, withWeekday) {
     // Explicit timeZone so the date shown is always in IST, regardless of
     // the visitor's own device timezone (otherwise it can roll back a day
     // for anyone browsing from west of India).
-    return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' });
+    var opts = { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' };
+    if (withWeekday) opts.weekday = 'long';
+    return d.toLocaleDateString('en-IN', opts);
   }
+
+  var OPENING_WEBINAR_DATE = formatProgramDate(OPENING_WEBINAR_DAY, true) + ', ' + OPENING_WEBINAR_TIME;
 
   document.getElementById('upi-id-display').textContent = UPI_ID;
   document.getElementById('start-date-display').textContent = formatProgramDate(PROGRAM_START);
   document.getElementById('webinar-date-display').textContent = OPENING_WEBINAR_DATE;
   document.getElementById('program-start-display').textContent = formatProgramDate(PROGRAM_START);
   document.getElementById('program-end-display').textContent = formatProgramDate(PROGRAM_END);
+  document.getElementById('program-start-webinar').textContent = 'Opening Webinar: ' + OPENING_WEBINAR_TIME;
 
   var form = document.getElementById('reg-form');
 
